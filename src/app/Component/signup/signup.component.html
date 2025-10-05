@@ -1,0 +1,107 @@
+<div class="flex items-center justify-center min-h-screen bg-[#e0eefe] px-4 py-10">
+  <div
+    class="flex flex-col md:flex-row-reverse bg-white rounded-2xl shadow-lg overflow-hidden max-w-5xl w-full transition-all duration-300">
+
+    <!-- Right Form Section -->
+    <div class="w-full md:w-1/2 p-8 md:p-12">
+      <!-- Logo -->
+      <div class="flex items-center mb-4">
+        <span class="text-3xl font-bold text-gray-800 mb-2">Create Your Account</span>
+      </div>
+
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
+
+        <!-- Role Selection -->
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-700">Select Role</label>
+          <div class="flex flex-wrap items-center gap-6">
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <input type="radio" formControlName="role" value="Instructor" class="text-[#0096FF] focus:ring-[#0096FF]" />
+              <span class="text-gray-700">Instructor</span>
+            </label>
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <input type="radio" formControlName="role" value="Learner" class="text-[#0096FF] focus:ring-[#0096FF]" />
+              <span class="text-gray-700">Learner</span>
+            </label>
+          </div>
+          <div *ngIf="(f['role'].touched || submitted) && f['role'].errors?.['required']" class="text-red-500 text-sm mt-1">
+            Role is required.
+          </div>
+        </div>
+
+        <!-- Full Name -->
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-700">Full Name</label>
+          <input type="text" formControlName="fullName" placeholder="Enter your full name"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#0096FF] focus:outline-none" />
+          <div *ngIf="(f['fullName'].touched || submitted) && f['fullName'].errors" class="text-red-500 text-sm mt-1">
+            <div *ngIf="f['fullName'].errors?.['required']">Full name is required.</div>
+            <div *ngIf="f['fullName'].errors?.['minlength']">Full name must be at least 3 characters.</div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-700">Email Address</label>
+          <input type="email" formControlName="email" placeholder="@example.com"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#0096FF] focus:outline-none" />
+          <div *ngIf="(f['email'].touched || submitted) && f['email'].errors" class="text-red-500 text-sm mt-1">
+            <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
+            <div *ngIf="f['email'].errors?.['email']">Invalid email address.</div>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-700">Password</label>
+          <input type="password" formControlName="password" placeholder="********"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#0096FF] focus:outline-none" />
+          <div *ngIf="(f['password'].touched || submitted) && f['password'].errors" class="text-red-500 text-sm mt-1">
+            <div *ngIf="f['password'].errors?.['required']">Password is required.</div>
+            <div *ngIf="f['password'].errors?.['minlength']">Minimum 8 characters required.</div>
+            <div *ngIf="f['password'].errors?.['pattern']">
+              Password must include at least:
+              <ul class="list-disc ml-5">
+                <li>One uppercase letter</li>
+                <li>One lowercase letter</li>
+                <li>One digit</li>
+                <li>One special character (&#64;, $, !, %, *, ?, &amp;)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-700">Confirm Password</label>
+          <input type="password" formControlName="confirmPassword" placeholder="********"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-[#0096FF] focus:outline-none" />
+          <div *ngIf="(f['confirmPassword'].touched || submitted) && f['confirmPassword'].errors" class="text-red-500 text-sm mt-1">
+            <div *ngIf="f['confirmPassword'].errors?.['required']">Confirm Password is required.</div>
+            <div *ngIf="f['confirmPassword'].errors?.['mismatch']">Passwords do not match.</div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+          class="w-full mt-4 bg-gradient-to-r from-[#0096FF] to-[#007BDB] text-white font-semibold py-2.5 rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
+          Sign Up
+        </button>
+      </form>
+
+      <!-- Login Link -->
+      <p class="mt-2 text-center text-gray-600">
+        Already have an account?
+        <a routerLink="/login" class="font-bold text-[#0096FF] hover:underline">
+          Login
+        </a>
+      </p>
+    </div>
+
+    <!-- Left Image Section -->
+    <div class="hidden md:flex w-full md:w-1/2 bg-[#f6faff] items-center justify-center">
+      <img src="../../../assets/image/signup.png" alt="Learning Illustration"
+        class="object-contain w-full h-[600px] rounded-l-2xl hover:scale-[1.01] transition-transform duration-300" />
+    </div>
+  </div>
+</div>
