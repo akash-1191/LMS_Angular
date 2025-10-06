@@ -16,12 +16,14 @@ export class SignupComponent {
   signupForm!: FormGroup;
   submitted = false;
   errorMessage = '';
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   constructor(private fb: FormBuilder, private router: Router, private service: LmsservicesService) { }
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
       role: ['', Validators.required],
-      fullName: ['', [Validators.required, Validators.minLength(3)]],
+      fullName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[A-Za-z]+(?:\s[A-Za-z]+)+$/)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
         Validators.required,
@@ -61,22 +63,23 @@ export class SignupComponent {
     this.errorMessage = '';
 
     if (this.signupForm.invalid) return;
-
+    const roleId = Number(this.signupForm.value.role);
     const data = {
-      role: this.signupForm.value.role,
       fullName: this.signupForm.value.fullName,
-      email: this.signupForm.value.email,
-      password: this.signupForm.value.password
+      email: this.signupForm.value.email.toLowerCase(),
+      password: this.signupForm.value.password,
+      roleId: roleId
     };
+    
 
-    this.service.registration(data).subscribe({
+    this.service.registration(data,{ responseType: 'text' }).subscribe({
       next: (res) => {
         console.log('Registration success:', res);
 
         const role = this.signupForm.value.role;
-        if (role === 'Instructor') {
+        if (role === 2) {
           this.router.navigate(['/instructor-dashboard']);
-        } else if (role === 'Learner') {
+        } else if (role === 3) {
           this.router.navigate(['/learner-dashboard']);
         } else {
           this.router.navigate(['/login']);

@@ -1,12 +1,12 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component, ElementRef, HostListener, inject } from '@angular/core';
-import { Route, Router, RouterOutlet } from '@angular/router';
+import { Route, Router, RouterLink, RouterOutlet } from '@angular/router';
 
 
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [RouterOutlet, NgClass, CommonModule],
+  imports: [RouterOutlet, RouterLink, CommonModule],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })

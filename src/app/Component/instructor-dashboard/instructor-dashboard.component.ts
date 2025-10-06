@@ -1,18 +1,16 @@
 import {  CommonModule, NgClass } from '@angular/common';
 import { Component, ElementRef, HostListener, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 
 
 @Component({
   selector: 'app-instructor-dashboard',
-  imports: [RouterOutlet,NgClass,CommonModule],
+  imports: [RouterOutlet,CommonModule,RouterLink],
   templateUrl: './instructor-dashboard.component.html',
   styleUrl: './instructor-dashboard.component.css'
 })
 export class InstructorDashboardComponent {
-
-
   
   constructor(private router: Router) { }
   isDropdownOpen = false;

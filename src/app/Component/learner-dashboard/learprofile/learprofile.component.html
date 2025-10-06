@@ -1,0 +1,182 @@
+<section class="flex items-center justify-center min-h-full bg-gray-100 px-4 py-8">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-5xl">
+        <!-- Header -->
+        <div
+            class="bg-gradient-to-r from-gray-700 to-gray-900 text-white py-6 px-4 rounded-t-lg text-center text-3xl font-bold">
+            {{ profileData?.fullName }}'s Profile
+        </div>
+
+        <!-- Profile Display -->
+        <div class="flex flex-col lg:flex-row items-center lg:items-start p-6 gap-8">
+            <!-- Profile Picture -->
+            <div class="relative group">
+                <img [src]="'https://localhost:7000' + profileData?.profilePic" alt="Profile"
+                    class="w-40 h-40 sm:w-48 sm:h-48 rounded-full border-4 border-gray-700 transition group-hover:blur-sm cursor-pointer object-cover" />
+                <button (click)="openImageUploadModal()" class="absolute inset-0 flex items-center justify-center cursor-pointer 
+                       bg-black/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 
+                       text-white text-2xl rounded-full transition-all duration-300">
+                    <i class="fas fa-pencil-alt cursor-pointer"></i>
+                </button>
+            </div>
+
+            <!-- User Details -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 w-full text-gray-800 text-base sm:text-lg">
+                <p><strong>👤 Full Name:</strong> {{ profileData?.fullName }}</p>
+                <p><strong>📞 Phone:</strong> {{ profileData?.phoneNumber }}</p>
+                <p><strong>🎂 Age:</strong> {{ profileData?.age }}</p>
+                <p><strong>⚧️ Gender:</strong> {{ profileData?.gender }}</p>
+                <p><strong>📧 Email:</strong> {{ profileData?.email }}</p>
+                <p><strong>🏠 Address:</strong> {{ profileData?.address }}</p>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="border-t px-6 py-4 flex items-center justify-between">
+
+            <div class="flex-grow text-center">
+                <div *ngIf="successMessage"
+                    class="inline-block mb-0 text-green-700 bg-green-100 border border-green-400 px-4 py-2 rounded">
+                    {{ successMessage }}
+                </div>
+
+                <div *ngIf="errorMessage"
+                    class="inline-block mb-0 text-red-700 bg-red-100 border border-red-400 px-4 py-2 rounded">
+                    {{ errorMessage }}
+                </div>
+            </div>
+
+            <button (click)="openEditProfileModal()"
+                class="cursor-pointer bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
+                <i class="fas fa-edit mr-2 cursor-pointer"></i>Edit Profile
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Image Upload Modal -->
+    <div *ngIf="isImageUploadModalOpen" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+        <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-lg relative">
+            <button (click)="closeImageUploadModal()"
+                class="absolute top-2 right-2 text-gray-600 text-2xl cursor-pointer">
+                <i class="fas fa-times cursor-pointer"></i>
+            </button>
+            <h2 class="text-xl font-bold mb-4 text-center text-gray-800">Upload Profile Picture</h2>
+            <input type="file" (change)="onImageSelected($event)" class="cursor-pointer w-full border p-2 rounded mb-4" />
+            <button (click)="submitImageUpload()"
+                class="w-full bg-gray-700 text-white py-2 rounded hover:bg-gray-800 transition cursor-pointer">
+                Upload
+            </button>
+            <div *ngIf="imageerrorMessage" class="text-red-600 mb-2 text-center">
+                {{ imageerrorMessage }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div *ngIf="isEditProfileModalOpen" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+        <div class="bg-white p-6 rounded-lg w-full max-w-2xl relative shadow-lg">
+            <button (click)="closeEditProfileModal()"
+                class="absolute top-2 right-2 text-gray-600 text-2xl cursor-pointer">
+                <i class="fas fa-times cursor-pointer"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Edit Profile</h2>
+
+            <form [formGroup]="editProfileForm" (ngSubmit)="onUpdateProfile()"
+                class="max-w-3xl mx-auto p-4 bg-white rounded shadow-md">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                    <!-- Full Name -->
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <input id="fullName" type="text" placeholder="Enter full name" formControlName="fullName"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <small
+                            *ngIf="editProfileForm.get('fullName')?.touched && editProfileForm.get('fullName')?.errors?.['required']"
+                            class="text-red-500">
+                            Full name is required.
+                        </small>
+                        <small
+                            *ngIf="editProfileForm.get('fullName')?.touched && editProfileForm.get('fullName')?.errors?.['pattern']"
+                            class="text-red-500">
+                            Please enter at least two words using only letters (e.g., John Doe).
+                        </small>
+                    </div>
+
+
+                    <!-- Phone Number -->
+                    <div>
+                        <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-1">Phone
+                            Number</label>
+                        <input id="phoneNumber" type="text" placeholder="Enter phone number"
+                            formControlName="phoneNumber"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <small
+                            *ngIf="editProfileForm.get('phoneNumber')?.touched && editProfileForm.get('phoneNumber')?.errors?.['required']"
+                            class="text-red-500">
+                            Phone number is required.
+                        </small>
+                        <small
+                            *ngIf="editProfileForm.get('phoneNumber')?.touched && editProfileForm.get('phoneNumber')?.errors?.['pattern']"
+                            class="text-red-500">
+                            Enter a valid 10-digit number.
+                        </small>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="sm:col-span-2">
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                        <input id="address" type="text" placeholder="Enter address" formControlName="address"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <small
+                            *ngIf="editProfileForm.get('address')?.touched && editProfileForm.get('address')?.invalid"
+                            class="text-red-500">
+                            Address is required.
+                        </small>
+                    </div>
+
+                    <!-- Age -->
+                    <div>
+                        <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                        <input id="age" type="number" placeholder="Enter age" formControlName="age"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <small
+                            *ngIf="editProfileForm.get('age')?.touched && editProfileForm.get('age')?.errors?.['required']"
+                            class="text-red-500">
+                            Age is required.
+                        </small>
+                        <small
+                            *ngIf="editProfileForm.get('age')?.touched && editProfileForm.get('age')?.errors?.['pattern']"
+                            class="text-red-500">
+                            Enter a valid positive number.
+                        </small>
+                    </div>
+
+                    <!-- Gender -->
+                    <div>
+                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <select id="gender" formControlName="gender"
+                            class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <small *ngIf="editProfileForm.get('gender')?.touched && editProfileForm.get('gender')?.invalid"
+                            class="text-red-500">
+                            Gender is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">
+                        Update Profile
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>

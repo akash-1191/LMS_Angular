@@ -28,97 +28,54 @@
       <div class="flex flex-col justify-between flex-grow">
         <ul class="flex flex-col py-4 space-y-1">
 
-          <!-- Dashboard -->
-          <!-- <a routerLink="/admin-dashboard/" class="cursor-pointer">
-            <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-gauge w-5 text-sm"></i>
-              <button class="ml-3 text-sm tracking-wide truncate">Dashboard</button>
-            </span>
-          </a> -->
 
-          <!-- Add Vehicle -->
-          <a routerLink="/admin-dashboard/a_addvehicle" class="cursor-pointer">
+          
+          <a routerLink="/learner-dashboard/dashboard" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
               border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
               <i class="fa-solid fa-plus w-5 text-sm"></i>
-              <button class="ml-3 text-sm tracking-wide truncate">Add Vehicle</button>
+              <button class="ml-3 text-sm tracking-wide truncate">Dashboard</button>
             </span>
           </a>
 
-          <!-- Manage Vehicles -->
-          <a routerLink="/admin-dashboard/" class="cursor-pointer">
+         
+          <a routerLink="/learner-dashboard/mycourse" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
               border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
               <i class="fa-solid fa-car w-5 text-sm"></i>
-              <button class="ml-3 text-sm tracking-wide truncate">Manage Vehicles</button>
+              <button class="ml-3 text-sm tracking-wide truncate">My Courses</button>
             </span>
           </a>
 
-          <!-- Contact Messages -->
-          <a routerLink="/admin-dashboard/ContachMeaaage" class="cursor-pointer">
+           <a routerLink="/learner-dashboard/explorecourses" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
               border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-envelope w-5 text-sm"></i>
-              <button class="ml-3 text-sm tracking-wide truncate">Contact Messages</button>
+              <i class="fa-solid fa-car w-5 text-sm"></i>
+              <button class="ml-3 text-sm tracking-wide truncate">Explore Courses</button>
             </span>
           </a>
 
-          <!-- USER PANEL -->
-          <li>
-            <div (click)="userPanelOpen = !userPanelOpen" class="flex items-center justify-between cursor-pointer h-11 px-4 hover:bg-gray-600 hover:text-indigo-300  
-                border-l-4 border-transparent hover:border-indigo-500 transition-all duration-300">
-              <div class="flex items-center">
-                <i class="fa-solid fa-user w-5 text-sm"></i>
-                <span class="ml-3 text-sm">User Panel</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs"
-                [ngClass]="{'rotate-180': userPanelOpen, 'transition-transform': true}"></i>
-            </div>
 
-            <ul *ngIf="userPanelOpen" class="pl-10 py-1 text-sm space-y-1 text-gray-300">
-              <li><a routerLink="/admin-dashboard/bookingrequest" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-calendar-check mr-2"></i> Booking Requests</a></li>
-              <li><a routerLink="/admin-dashboard/Returnvehicle_check" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-clipboard-check mr-2"></i> Return Vehicle Check</a></li>
-              <li><a routerLink="/admin-dashboard/Damagecharges" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-gas-pump mr-2"></i> Fuel & Damage Charges</a></li>
-              <li><a routerLink="/admin-dashboard/securitydepositrefaund" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-sack-dollar mr-2"></i> Security Refunds</a></li>
-              <li><a routerLink="/admin-dashboard/Feesback" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-comments mr-2"></i> User Feedback</a></li>
-            </ul>
-          </li>
-
-          <!-- OWNER PANEL -->
-          <!-- <li>
-            <div (click)="ownerPanelOpen = !ownerPanelOpen" class="flex items-center justify-between cursor-pointer h-11 px-4 hover:bg-gray-600 hover:text-indigo-300  
-                border-l-4 border-transparent hover:border-indigo-500 transition-all duration-300">
-              <div class="flex items-center">
-                <i class="fa-solid fa-user-tie w-5 text-sm"></i>
-                <span class="ml-3 text-sm">Owner Panel</span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-xs"
-                [ngClass]="{'rotate-180': ownerPanelOpen, 'transition-transform': true}"></i>
-            </div>
-
-            <ul *ngIf="ownerPanelOpen" class="pl-10 py-1 text-sm space-y-1 text-gray-300">
-              <li><a routerLink="/admin-dashboard/verify-owners" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-user-check mr-2"></i> Verify Owners</a></li>
-              <li><a routerLink="/admin-dashboard/set-rents" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-coins mr-2"></i> Set Vehicle Rents</a></li>
-              <li><a routerLink="/admin-dashboard/pay-owners" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-credit-card mr-2"></i> Pay to Owners</a></li>
-              <li><a routerLink="/admin-dashboard/owner-feedback" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-comment-dots mr-2"></i> Owner Feedback</a></li>
-              <li><a routerLink="/admin-dashboard/owner-conversations" class="flex items-center p-2 hover:text-indigo-300 hover:bg-gray-700">
-                <i class="fa-solid fa-comments-dollar mr-2"></i> Owner Conversations</a></li>
-            </ul>
-          </li> -->
+           <a routerLink="/learner-dashboard/certificates" class="cursor-pointer">
+            <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
+              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-car w-5 text-sm"></i>
+              <button class="ml-3 text-sm tracking-wide truncate">Certificates</button>
+            </span>
+          </a>
+  
+          <!-- Profile Messages -->
+          <a routerLink="/learner-dashboard/" class="cursor-pointer">
+            <span class="cursor-pointer relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
+              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-envelope w-5 text-sm "></i>
+              <button class="ml-3 text-sm tracking-wide truncate ">Profile</button>
+            </span>
+          </a> 
         </ul>
 
         <p class="mb-14 px-5 py-3 hidden md:block text-center text-xs text-slate-400">
-          Copyright BDCS 2025
+          Copyright LMS 2025
         </p>
       </div>
     </div>
