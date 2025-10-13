@@ -21,6 +21,21 @@ import { ExploreCoursesComponent } from './Component/learner-dashboard/explore-c
 import { CertificatesComponent } from './Component/learner-dashboard/certificates/certificates.component';
 import { AdmDashborrdComponent } from './Component/admin-dashboard/adm-dashborrd/adm-dashborrd.component';
 import { InstructorReqComponent } from './Component/admin-dashboard/instructor-req/instructor-req.component';
+import { CourseDetailComponent } from './Component/instructor-dashboard/course-detail/course-detail.component';
+import { AddUnitComponent } from './Component/instructor-dashboard/add-unit/add-unit.component';
+import { AddContentComponent } from './Component/instructor-dashboard/add-content/add-content.component';
+import { AddQuizComponent } from './Component/instructor-dashboard/add-quiz/add-quiz.component';
+import { AddQuestionsComponent } from './Component/instructor-dashboard/add-questions/add-questions.component';
+import { AprovalCourseComponent } from './Component/admin-dashboard/aproval-course/aproval-course.component';
+import { CourseDetailsComponent } from './Component/admin-dashboard/course-details/course-details.component';
+import { FullcourseDetaildComponent } from './Component/learner-dashboard/fullcourse-detaild/fullcourse-detaild.component';
+import { StartLearningComponent } from './Component/learner-dashboard/start-learning/start-learning.component';
+import { QuizeStartComponent } from './Component/learner-dashboard/quize-start/quize-start.component';
+import { AboutComponent } from './Component/about/about.component';
+
+import { ContactComponent } from './Component/contact/contact.component';
+import { MylmsserviecsComponent } from './Component/mylmsserviecs/mylmsserviecs.component';
+
 
 export const routes: Routes = [
 
@@ -30,6 +45,11 @@ export const routes: Routes = [
             { path: '', component: HomeComponent },
             { path: 'login', component: LoginComponent },
             { path: 'signup', component: SignupComponent },
+            { path: 'about', component: AboutComponent },
+            { path: 'services', component: MylmsserviecsComponent },
+            { path: 'contact', component: ContactComponent }
+
+
         ]
     },
 
@@ -41,7 +61,9 @@ export const routes: Routes = [
             { path: '', component: AdmDashborrdComponent },
             { path: 'manageuser', component: ManageUsersComponent },
             { path: 'managecourse', component: ManageCoursesComponent },
-            { path: 'InstructorReq', component: InstructorReqComponent }
+            { path: 'InstructorReq', component: InstructorReqComponent },
+            { path: 'approvalcourse/:instructorId', component: AprovalCourseComponent },
+            { path: 'course-details/:courseId', component: CourseDetailsComponent }
         ]
     },
 
@@ -56,6 +78,13 @@ export const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'mycourse', component: InstCourseComponent },
             { path: 'createcourse', component: CreateCourseComponent },
+
+            { path: 'course/:id/add-unit', component: AddUnitComponent },
+            { path: 'unit/:id/add-content/:quizId', component: AddContentComponent },
+            { path: 'unit/:id/add-quiz', component: AddQuizComponent },
+            { path: 'unit/:id/add-questions', component: AddQuestionsComponent },
+            { path: 'course-detail/:id', component: CourseDetailComponent },
+
             { path: 'studentsenrollments', component: StudentsEnrollmentsComponent },
         ]
     },
@@ -71,7 +100,10 @@ export const routes: Routes = [
             { path: 'dashboard', component: LearAshboardComponent },
             { path: 'mycourse', component: MyCoursesComponent },
             { path: 'explorecourses', component: ExploreCoursesComponent },
-            { path: 'certificates', component: CertificatesComponent }
+            { path: 'certificates', component: CertificatesComponent },
+            { path: 'course-details/:courseId', component: FullcourseDetaildComponent },
+            { path: 'startlearning/:courseId', component: StartLearningComponent },
+            { path: 'quiz/:courseId/:quizId', component: QuizeStartComponent }
         ]
     }
 ];

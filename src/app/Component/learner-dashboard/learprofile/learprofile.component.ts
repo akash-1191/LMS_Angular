@@ -11,7 +11,7 @@ import { LmsservicesService } from '../../../../services/lmsservices.service';
 })
 export class LearprofileComponent implements OnInit {
 
-editProfileForm!: FormGroup;
+ editProfileForm!: FormGroup;
   profileData: any;
   isEditProfileModalOpen = false;
   isImageUploadModalOpen = false;
@@ -162,6 +162,7 @@ imageerrorMessage:string='';
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
+    debugger
     if (event.key === 'Escape' || event.key === 'Esc') {
       if (this.isImageUploadModalOpen) {
         this.closeImageUploadModal();

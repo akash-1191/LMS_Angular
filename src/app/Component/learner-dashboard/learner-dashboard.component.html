@@ -1,4 +1,4 @@
-<section >
+<section>
   <div class="min-h-screen flex flex-col antialiased bg-slate-100 ">
 
     <!-- Header -->
@@ -11,7 +11,9 @@
         <span class="hidden md:block font-semibold text-lg tracking-wide">Learner Dashboard</span>
       </div>
       <ul class="flex items-center space-x-4">
-        <li><div class="w-px h-6 bg-slate-400"></div></li>
+        <li>
+          <div class="w-px h-6 bg-slate-400"></div>
+        </li>
         <li>
           <p (click)="logout()" class="cursor-pointer flex items-center hover:text-blue-300 transition duration-200">
             <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
@@ -21,57 +23,57 @@
     </div>
 
     <!-- Sidebar -->
-    <div id="sidebar"
-  [class.-translate-x-full]="!isSidebarOpen"
+    <div id="sidebar" [class.-translate-x-full]="!isSidebarOpen"
       class="fixed flex flex-col top-14 left-0 w-64 md:w-64 h-full bg-slate-900 text-white z-30 shadow-lg transform md:translate-x-0 transition-transform duration-300 ease-in-out">
 
       <div class="flex flex-col justify-between flex-grow">
         <ul class="flex flex-col py-4 space-y-1">
 
 
-          
+
           <a routerLink="/learner-dashboard/dashboard" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-plus w-5 text-sm"></i>
+      border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-gauge w-5 text-sm"></i>
               <button class="ml-3 text-sm tracking-wide truncate">Dashboard</button>
             </span>
           </a>
 
-         
+        
           <a routerLink="/learner-dashboard/mycourse" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-car w-5 text-sm"></i>
+      border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-book w-5 text-sm"></i>
               <button class="ml-3 text-sm tracking-wide truncate">My Courses</button>
             </span>
           </a>
 
-           <a routerLink="/learner-dashboard/explorecourses" class="cursor-pointer">
+          
+          <a routerLink="/learner-dashboard/explorecourses" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-car w-5 text-sm"></i>
+      border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-magnifying-glass w-5 text-sm"></i>
               <button class="ml-3 text-sm tracking-wide truncate">Explore Courses</button>
             </span>
           </a>
 
-
-           <a routerLink="/learner-dashboard/certificates" class="cursor-pointer">
+         
+          <!-- <a routerLink="/learner-dashboard/certificates" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-car w-5 text-sm"></i>
+      border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-award w-5 text-sm"></i>
               <button class="ml-3 text-sm tracking-wide truncate">Certificates</button>
             </span>
-          </a>
-  
-          <!-- Profile Messages -->
+          </a> -->
+
+         
           <a routerLink="/learner-dashboard/" class="cursor-pointer">
             <span class="cursor-pointer relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-envelope w-5 text-sm "></i>
-              <button class="ml-3 text-sm tracking-wide truncate ">Profile</button>
+      border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-user w-5 text-sm"></i>
+              <button class="ml-3 text-sm tracking-wide truncate">Profile</button>
             </span>
-          </a> 
+          </a>
         </ul>
 
         <p class="mb-14 px-5 py-3 hidden md:block text-center text-xs text-slate-400">

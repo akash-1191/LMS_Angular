@@ -54,6 +54,7 @@ export class InstructorReqComponent implements OnInit {
 
   ngOnInit() {
     this.loadInstructors();
+   
   }
 
   //  Load instructors from API
@@ -61,6 +62,7 @@ export class InstructorReqComponent implements OnInit {
     this.instructorService.getAllInstructors().subscribe({
       next: (data: Instructor[]) => {
         this.instructors = data;
+       
         this.pendingInstructors = data.filter(i =>
           i.approvalStatus === 'Pending' && i.isActive === true
         );
@@ -74,7 +76,7 @@ export class InstructorReqComponent implements OnInit {
         );
 
         this.rejectedInstructors = data.filter(i =>
-          i.approvalStatus === 'Rejected' && i.isActive === false
+          i.approvalStatus === 'Rejected' && i.isActive === true
         );
       },
       error: (err) => {
@@ -121,7 +123,7 @@ export class InstructorReqComponent implements OnInit {
     this.showReasonError = false;
 
     const data = {
-      reason: this.rejectReason
+      reason: this.rejectReason.trim()
     };
 
     this.instructorService.RejectInstructors(this.selectedInstructorId, data).subscribe({
@@ -194,4 +196,7 @@ export class InstructorReqComponent implements OnInit {
       this.closeImageModal();
     }
   }
+
+
+  
 }

@@ -1,0 +1,151 @@
+<section class="min-h-screen bg-gray-100 py-10 px-6">
+    <div class="max-w-5xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-200">
+
+        <!-- Header Section -->
+        <div class="relative">
+            <img [src]="'https://localhost:7000' + course.thumbnailUrl" alt="Course Thumbnail"
+                class="w-full h-72 object-cover" />
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                <h2 class="text-3xl font-bold text-white">{{ course.title }}</h2>
+                <p class="text-gray-200 mt-2">{{ course.description }}</p>
+            </div>
+        </div>
+
+        <!-- Body Section -->
+        <div class="p-8 space-y-8">
+
+            <!-- Course Meta -->
+            <div class="flex flex-wrap justify-between items-center">
+                <div class="text-gray-700">
+                    <span class="font-semibold">Created On:</span> {{ course.createdDate | date: 'mediumDate' }}
+                </div>
+                <span class="px-4 py-2 rounded-full text-sm font-semibold" [ngClass]="{
+                'bg-green-100 text-green-700': course.approvalStatus === 'Approved',
+                'bg-yellow-100 text-yellow-700': course.approvalStatus === 'Pending',
+                'bg-red-100 text-red-700': course.approvalStatus === 'Rejected'
+              }">
+                    {{ course.approvalStatus }}
+                </span>
+            </div>
+
+            <hr class="border-gray-300" />
+
+            <!-- Units Section -->
+            <div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-blue-600"></i> Course Units
+                </h3>
+                <div *ngIf="course.units?.length > 0; else noUnits" class="space-y-4">
+                    <div *ngFor="let unit of course.units"
+                        class="bg-gray-50 border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">{{ unit.title }}</h4>
+                        <ul class="list-disc pl-6 text-gray-700">
+                            <li *ngFor="let c of unit.contents" class="cursor-pointer hover:text-blue-600"
+                                (click)="openVideoModal(c.filePath)">
+                                <i class="fa-solid fa-play-circle text-blue-500 mr-2"></i>
+                                {{ c.filePath }}
+                                <span class="text-sm text-gray-500">({{ c.duration }} mins)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <ng-template #noUnits>
+                    <p class="text-gray-500 italic">No units available.</p>
+                </ng-template>
+            </div>
+
+            <!-- Quizzes Section -->
+            <div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-question-circle text-indigo-600"></i> Course Quizzes
+                </h3>
+                <div *ngIf="course.quizzes?.length > 0; else noQuiz" class="space-y-4">
+                    <div *ngFor="let quiz of course.quizzes"
+                        class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl shadow-sm hover:shadow-md transition">
+                        <h4 class="text-lg font-semibold text-indigo-800 mb-2">{{ quiz.title }} ({{ quiz.duration }}
+                            mins)</h4>
+                        <ul class="list-decimal pl-6 text-gray-700">
+                            <li *ngFor="let q of quiz.questions" class="mb-2">
+                                <div class="flex justify-between items-center cursor-pointer"
+                                    (click)="toggleQuestion(q.questionId)">
+                                    <span class="font-medium text-gray-800">{{ q.text }}</span>
+                                    <span class="text-gray-500">
+                                        <i *ngIf="isQuestionOpen(q.questionId)" class="fa-solid fa-chevron-up"></i>
+                                        <i *ngIf="!isQuestionOpen(q.questionId)" class="fa-solid fa-chevron-down"></i>
+                                    </span>
+                                </div>
+                                <div *ngIf="isQuestionOpen(q.questionId)" class="ml-4 text-sm text-gray-600 mt-1">
+                                    <p *ngFor="let opt of q.options">• {{ opt }}</p>
+                                    <p class="text-green-700 font-semibold mt-1">✅ Correct: {{ q.correctAnswer }}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <ng-template #noQuiz>
+                    <p class="text-gray-500 italic">No quizzes added.</p>
+                </ng-template>
+            </div>
+
+            <!-- Approve/Reject Buttons -->
+            <div class="flex gap-4 mt-6">
+                <button (click)="acceptCourse()"
+                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+                    [disabled]="isApproved()">
+                    Accept
+                </button>
+                <button (click)="openRejectModal()"
+                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 disabled:opacity-50"
+                    [disabled]="isApproved()">
+                    Reject
+                </button>
+            </div>
+
+            <div *ngIf="successMessage" class="fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-md">
+                {{ successMessage }}
+            </div>
+            <div *ngIf="errorMessage" class="fixed top-4 right-4 bg-red-600 text-white px-4 py-2 rounded shadow-md">
+                {{ errorMessagemodel }}
+            </div>
+
+        </div>
+
+        <!-- 🎥 Video Modal -->
+        <div *ngIf="showVideoModal" class="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+            <div class="bg-white rounded-xl shadow-2xl p-4 w-[90%] max-w-3xl relative">
+                <button class="absolute top-2 right-2 text-gray-600 hover:text-red-600" (click)="closeVideoModal()">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+                <video *ngIf="selectedVideoUrl" [src]="selectedVideoUrl" controls autoplay
+                    class="w-full rounded-lg"></video>
+            </div>
+        </div>
+
+        <!-- Reject Modal -->
+        <div *ngIf="showRejectModal" class="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+            <div class="bg-white p-6 rounded-xl w-full max-w-md relative">
+                <h3 class="text-xl font-bold mb-4">Reject Course</h3>
+                <form [formGroup]="rejectForm" (ngSubmit)="submitReject()">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Reason</label>
+                        <textarea formControlName="reason" rows="4"
+                            class="w-full border border-gray-300 rounded p-2"></textarea>
+                        <div *ngIf="rejectForm.get('reason')?.touched && rejectForm.get('reason')?.invalid"
+                            class="text-red-500 text-sm mt-1">
+                            Reason is required
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <button type="button" (click)="closeRejectModal()"
+                            class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancel</button>
+                        <button type="submit"
+                            class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700">Reject</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+</section>

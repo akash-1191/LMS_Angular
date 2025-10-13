@@ -1,1 +1,49 @@
-<p>explore-courses works!</p>
+<section class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- Course Card -->
+        <div *ngFor="let course of courses"
+            class="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-[1.01] overflow-hidden flex flex-col border border-gray-200">
+
+            <!-- Thumbnail -->
+            <div class="relative h-52 w-full">
+                <img [src]="'https://localhost:7000' + course.thumbnailUrl" alt="{{ course.title }}"
+                    class="w-full h-full object-cover" />
+
+                <span
+                    class="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+                    Free
+                </span>
+            </div>
+
+            <!-- Info -->
+            <div class="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-1 truncate">{{ course.title }}</h3>
+                    <p class="text-gray-600 text-sm mb-2 line-clamp-3">{{ course.description }}</p>
+                    <p class="text-gray-500 text-sm italic">Instructor: {{ course.instructorName }}</p>
+                </div>
+
+                <!-- Buttons: Responsive Layout -->
+                <div class="mt-5 flex flex-col sm:flex-row gap-2">
+                    <button
+                        class="sm:w-1/2 w-full bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition-all duration-200"
+                        (click)="viewFullCourse(course.courseId)">
+                        View
+                    </button>
+                    <!-- <button
+                        class="sm:w-1/2 w-full bg-green-600 text-white font-medium py-2 rounded-lg hover:bg-green-700 transition-all duration-200"
+                        (click)="enrollCourse(course.courseId)">
+                        Enroll
+                    </button> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- No Courses Message -->
+    <p *ngIf="courses.length === 0 && !isLoading" class="text-center text-gray-500 mt-12 text-lg">
+        No courses available at the moment.
+    </p>
+</section>

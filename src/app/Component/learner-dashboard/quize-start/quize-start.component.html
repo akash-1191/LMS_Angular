@@ -1,0 +1,150 @@
+<div class="p-6 max-w-3xl mx-auto">
+
+  <div *ngIf="isLoading" class="text-gray-500 text-center">Loading Quiz...</div>
+  <div *ngIf="errorMessage" class="text-red-500 text-center">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="text-green-500 text-center">{{ successMessage }}</div>
+
+  <div *ngIf="quiz && !quizSubmitted">
+
+    <h2 class="text-xl font-bold mb-4">{{ quiz.title }}</h2>
+    <p class="text-green-500">Time left: {{ formattedTimeLeft }}</p>
+
+    <div *ngIf="currentQuestion" class="mb-4 p-3 border rounded">
+      <p class="font-medium">{{ currentQuestion.text }}</p>
+      <div *ngFor="let opt of currentQuestion.options" class="flex items-center gap-2 mt-2">
+        <input type="radio"
+               [name]="'q' + currentQuestion.questionId"
+               [value]="opt"
+               (change)="selectAnswer(currentQuestion.questionId, opt)"
+               [checked]="quizAnswers[currentQuestion.questionId] === opt"
+               class="cursor-pointer">
+        <label>{{ opt }}</label>
+      </div>
+    </div>
+
+    <div class="flex justify-between mt-4">
+      <button (click)="prevQuestion()" 
+              [disabled]="currentQuestionIndex === 0"
+              class="bg-gray-400 text-white px-4 py-2 rounded disabled:opacity-50">
+        Previous
+      </button>
+
+      <button *ngIf="currentQuestionIndex < quiz.questions.length - 1"
+              (click)="nextQuestion()" 
+              class="bg-blue-600 text-white px-4 py-2 rounded">
+        Next
+      </button>
+
+      <button *ngIf="currentQuestionIndex === quiz.questions.length - 1"
+              (click)="submitQuiz()" 
+              class="bg-green-600 text-white px-4 py-2 rounded">
+        Submit Quiz
+      </button>
+    </div>
+
+  </div>
+
+  <div *ngIf="quizSubmitted" class="mt-6 text-center">
+    <h2 class="text-2xl font-semibold">Quiz Completed!</h2>
+    <p class="mt-2 text-gray-700">Your Score: {{ quizScore }} / {{ quiz?.questions?.length }}</p>
+    <p class="mt-1" [ngClass]="quizScore >= (quiz?.questions?.length * 0.5) ? 'text-green-600' : 'text-red-600'">
+      {{ quizScore >= (quiz?.questions?.length * 0.5) ? '🎉 Passed!' : '❌ Failed' }}
+    </p>
+
+    <button *ngIf="quizScore >= (quiz?.questions?.length * 0.5)"
+            (click)="downloadCertificate()"
+            class="mt-4 cursor-pointer bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+      🎓 Download Certificate
+    </button>
+  </div>
+
+  <!-- Hidden certificate DOM used for rendering to image/pdf -->
+<div
+  #certificateEl
+  id="certificate"
+  [style.display]="showCertificate ? 'block' : 'none'"
+  style="width: 1200px; height: 850px; padding: 40px; background-color: #ffffff; color: #000000; box-sizing: border-box; font-family: Arial, sans-serif;"
+>
+  <div
+    style="width: 100%; height: 100%; border: 8px solid #1e40af; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"
+  >
+
+    <!-- Watermark -->
+    <div
+      style="
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-20deg);
+        font-size: 72px;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.05);
+        pointer-events: none;
+        user-select: none;
+      "
+    >
+      CERTIFICATE
+    </div>
+
+    <!-- Header -->
+    <header style="text-align: center; padding-top: 40px; padding-bottom: 20px;">
+      <div style="color: #1e40af; font-weight: bold; font-size: 18px;">ISSUED BY</div>
+      <div style="font-size: 32px; font-weight: bold; margin-top: 10px;">LMS.com</div>
+      <div style="color: #666; font-size: 14px; margin-top: 10px;">Online Learning & Certification</div>
+    </header>
+
+    <!-- Body -->
+    <main style="text-align: center; padding: 0 60px;">
+      <h1 style="font-size: 36px; font-weight: bold; margin: 20px 0;">Certificate of Completion</h1>
+      <p style="font-size: 16px; color: #333;">This is to certify that</p>
+
+      <div style="font-size: 24px; font-weight: bold; color: #111; margin: 15px 0;">
+        {{ getUserNameFromToken() || 'Learner Name' }}
+      </div>
+
+      <p style="font-size: 16px; color: #333;">has successfully completed the course</p>
+
+      <div style="font-size: 20px; font-weight: bold; color: #1e40af; margin: 15px 0;">
+        {{ courseTitle || ('Course ID: ' + courseId) }}
+      </div>
+
+      <div style="font-size: 16px; color: #444; margin-top: 10px;">
+        Score: <strong>{{ quizScore }} / {{ quiz?.questions?.length }}</strong>
+      </div>
+
+      <div style="font-size: 14px; color: #666; margin-top: 8px;">
+        Date: {{ getFormattedDate() }}
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="position: absolute; bottom: 40px; left: 40px; right: 40px; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <div style="width: 220px; height: 60px; border-bottom: 2px solid #000;"></div>
+        <div style="font-size: 14px; font-weight: bold; color: #333; margin-top: 5px;">Instructor / Authority</div>
+        <div style="font-size: 12px; color: #777;">Authorization & Verification</div>
+      </div>
+
+      <div style="text-align: right;">
+        <svg width="220" height="80" viewBox="0 0 220 80" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M10 50 C40 10, 80 70, 120 30 C160 -10, 200 60, 210 40"
+            stroke="#111"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <text x="0" y="78" font-size="10" fill="#333">Signature</text>
+        </svg>
+        <div style="font-size: 12px; color: #333;">YourWebsite.com</div>
+      </div>
+    </footer>
+
+    <!-- Certificate ID -->
+    <div style="position: absolute; bottom: 10px; left: 40px; font-size: 12px; color: #777;">
+      Certificate ID: <strong>{{ getCertificateFilename() }}</strong>
+    </div>
+  </div>
+</div>
+
+</div>

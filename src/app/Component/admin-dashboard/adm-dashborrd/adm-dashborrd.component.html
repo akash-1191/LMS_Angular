@@ -1,1 +1,54 @@
-<p>adm-dashborrd works!</p>
+<div class="p-6 bg-gray-100 min-h-screen">
+  <!-- Welcome -->
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Welcome, Admin 🛡️</h1>
+    <p class="text-gray-600 mt-1">Here's an overview of platform activity and pending actions.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="bg-white p-4 rounded shadow">
+      <h2 class="text-lg font-semibold text-gray-700">Total Users</h2>
+      <p class="text-3xl font-bold text-blue-700 mt-2">5</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h2 class="text-lg font-semibold text-gray-700">Courses in System</h2>
+      <p class="text-3xl font-bold text-blue-700 mt-2">10</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h2 class="text-lg font-semibold text-gray-700">Pending Instructor Requests</h2>
+      <p class="text-3xl font-bold text-red-600 mt-2">8</p>
+    </div>
+  </div>
+
+  <!-- Recent Instructor Requests -->
+  <div class="bg-white p-6 rounded shadow mb-6">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Instructor Applications</h2>
+    <ul class="space-y-2">
+      <li class="flex justify-between border-b pb-2">
+        <span>Ravi Kumar</span>
+        <span class="text-sm text-gray-500">Applied: Oct 11</span>
+      </li>
+      <li class="flex justify-between border-b pb-2">
+        <span>Sneha Roy</span>
+        <span class="text-sm text-gray-500">Applied: Oct 9</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-blue-100 p-4 rounded shadow cursor-pointer hover:bg-blue-200 transition">
+      <h3 class="font-bold text-gray-700">Manage Courses</h3>
+      <p class="text-sm text-gray-600">View, approve, or remove courses</p>
+    </div>
+    <div class="bg-green-100 p-4 rounded shadow cursor-pointer hover:bg-green-200 transition">
+      <h3 class="font-bold text-gray-700">Manage Users</h3>
+      <p class="text-sm text-gray-600">Update user roles or deactivate users</p>
+    </div>
+    <div class="bg-yellow-100 p-4 rounded shadow cursor-pointer hover:bg-yellow-200 transition">
+      <h3 class="font-bold text-gray-700">Instructor Approvals</h3>
+      <p class="text-sm text-gray-600">Review and approve instructor requests</p>
+    </div>
+  </div>
+</div>

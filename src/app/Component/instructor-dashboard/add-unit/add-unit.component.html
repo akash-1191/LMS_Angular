@@ -1,0 +1,120 @@
+<div class="max-w-3xl mx-auto mt-10 bg-white shadow-md p-8 rounded-lg">
+    <h2 class="text-3xl font-semibold text-gray-800 text-center mb-8">📚 Add Units & 📝Course Quiz</h2>
+
+    <!-- UNITS SECTION -->
+    <div>
+        <h3 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">📂 Units</h3>
+        <form [formGroup]="unitForm" (ngSubmit)="onSubmitUnits()" class="space-y-6">
+
+            <div formArrayName="units" class="space-y-6">
+                <div *ngFor="let unit of units.controls; let i = index" [formGroupName]="i"
+                    class="border p-4 rounded-md shadow-sm bg-gray-50">
+                    <div class="grid md:grid-cols-2 gap-4">
+
+                        <!-- Unit Title -->
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1">Unit Title</label>
+                            <input type="text" formControlName="title" placeholder="Enter unit title"
+                                class="w-full px-4 py-2 border rounded-md focus:outline-none"
+                                [ngClass]="{ 'border-red-500': unit.get('title')?.invalid && unit.get('title')?.touched }" />
+                            <div *ngIf="unit.get('title')?.invalid && unit.get('title')?.touched"
+                                class="text-sm text-red-600">
+                                Title is required.
+                            </div>
+                        </div>
+
+                        <!-- Order (disabled) -->
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1">Order</label>
+                            <input type="number" formControlName="order"
+                                class="w-full px-4 py-2 border rounded-md bg-gray-100 cursor-not-allowed"
+                                [disabled]="true" />
+                        </div>
+                    </div>
+
+                    <!-- Remove Button -->
+                    <div class="mt-3 text-right">
+                        <button type="button" (click)="removeUnit(i)" *ngIf="units.length > 1"
+                            class="text-sm text-red-600 hover:underline">
+                            ❌ Remove Unit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Unit Button -->
+            <button type="button" (click)="addUnit()" [disabled]="isAddUnitDisabled"
+                class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition disabled:opacity-50">
+                {{ isAddUnitDisabled ? 'Please wait...' : '➕ Add Another Unit' }}
+            </button>
+
+            <!-- Submit Units Button -->
+            <button type="submit" [disabled]="unitForm.invalid"
+                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition disabled:opacity-50">
+                Submit Units
+            </button>
+        </form>
+    </div>
+    <div class="mt-7">
+        <div *ngIf="successMessage" class="bg-green-100 border border-green-400 text-green-800 px-4 py-2 rounded mt-6">
+            {{ successMessage }}
+        </div>
+
+        <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mt-4">
+            {{ errorMessage }}
+        </div>
+    </div>
+    <!-- Success/Error Messages -->
+
+    <!-- QUIZ SECTION -->
+    <div class="mt-5 border-t pt-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">📝 Create Quiz</h3>
+
+        <form [formGroup]="quizForm" (ngSubmit)="onSubmitQuiz()" class="space-y-4">
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Quiz Title</label>
+                <input type="text" formControlName="title" placeholder="Enter quiz title"
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none"
+                    [ngClass]="{ 'border-red-500': quizForm.get('title')?.invalid && quizForm.get('title')?.touched }" />
+                <div *ngIf="quizForm.get('title')?.invalid && quizForm.get('title')?.touched"
+                    class="text-sm text-red-600">
+                    Title is required.
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Duration (minutes)</label>
+                <input type="number" formControlName="duration" placeholder="e.g. 10"
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none"
+                    [ngClass]="{ 'border-red-500': quizForm.get('duration')?.invalid && quizForm.get('duration')?.touched }" />
+                <div *ngIf="quizForm.get('duration')?.hasError('required') && quizForm.get('duration')?.touched"
+                    class="text-sm text-red-600">
+                    Duration is required.
+                </div>
+                <div *ngIf="quizForm.get('duration')?.hasError('min') && quizForm.get('duration')?.touched"
+                    class="text-sm text-red-600">
+                    Must be at least 1 minute.
+                </div>
+                <div *ngIf="quizForm.get('duration')?.hasError('pattern') && quizForm.get('duration')?.touched"
+                    class="text-sm text-red-600">
+                    Must be a whole number (no decimal).
+                </div>
+            </div>
+
+            <button type="submit" [disabled]="quizForm.invalid"
+                class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition disabled:opacity-50">
+                🧾 Create Quiz
+            </button>
+        </form>
+    </div>
+
+
+
+    <!-- Navigation Button -->
+    <div class="mt-6">
+       <button (click)="goToNextStep()"
+  class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
+  Go to Add Content
+</button>
+    </div>
+</div>

@@ -1,1 +1,49 @@
-<p>manage-courses works!</p>
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-4">All Instructors</h2>
+
+    <div *ngIf="isLoading" class="text-gray-500">Loading instructors...</div>
+    <div *ngIf="error" class="text-red-600">{{ error }}</div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border rounded-lg shadow">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2">#</th>
+                    <th class="px-4 py-2">Profile</th>
+                    <th class="px-4 py-2">Name</th>
+                    <th class="px-4 py-2">Email</th>
+                    <th class="px-4 py-2">PhoneNo.</th>
+
+                    <!-- <th class="px-4 py-2">Profile Complete</th> -->
+                    <th class="px-4 py-2">Total Courses</th>
+                    <th class="px-4 py-2">Approval Status</th>
+                    <th class="px-4 py-2">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let instructor of instructors; let i = index" class="border-b">
+                    <td class="px-4 py-2">{{ i + 1 }}</td>
+                    <td class="px-4 py-2">
+                        <img *ngIf="instructor.profilePic" [src]="'https://localhost:7000' + instructor.profilePic"
+                            class="w-10 h-10 rounded-full object-cover" alt="Profile">
+                        <span *ngIf="!instructor.profilePic">N/A</span>
+                    </td>
+                    <td class="px-4 py-2 font-medium">{{ instructor.fullName }}</td>
+                    <td class="px-4 py-2 ">{{ instructor.email }}</td>
+                    <td class="px-4 py-2 ">{{ instructor.phoneNumber }}</td>
+                    <td class="px-4 py-2 text-center">{{ instructor.totalCourses }}</td>
+
+                    <td class="px-4 py-2 text-center">
+                        <span *ngIf="instructor.isProfileComplete" class="text-green-600 font-bold">Yes</span>
+                        <span *ngIf="!instructor.isProfileComplete" class="text-red-600 font-bold">No</span>
+                    </td>
+                    <td class="px-4 py-2">
+                        <button (click)="viewCourses(instructor.userId)"
+                            class=" cursor-pointer bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">View Courses</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

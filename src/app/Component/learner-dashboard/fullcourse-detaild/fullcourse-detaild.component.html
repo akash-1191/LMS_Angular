@@ -1,0 +1,97 @@
+<div class="min-h-screen bg-gray-200 py-10 px-6 max-w-6xl mx-auto">
+
+  <!-- Tabs -->
+  <div class="flex border-b border-gray-300 mb-8">
+    <button (click)="switchTab('course')" 
+            [class.border-blue-500]="activeTab==='course'" 
+            [class.text-blue-500]="activeTab==='course'"
+            class="px-6 py-3 font-semibold border-b-2 border-transparent hover:text-blue-500 hover:border-blue-500 transition-all">
+      Course Details
+    </button>
+    <button (click)="switchTab('instructor')" 
+            [class.border-blue-500]="activeTab==='instructor'" 
+            [class.text-blue-500]="activeTab==='instructor'"
+            class="px-6 py-3 font-semibold border-b-2 border-transparent hover:text-blue-500 hover:border-blue-500 transition-all">
+      Instructor Details
+    </button>
+  </div>
+
+  <!-- Loading/Error -->
+  <div *ngIf="isLoading" class="text-center text-gray-500 text-lg">Loading...</div>
+  <div *ngIf="errorMessage" class="text-center text-red-500 text-lg">{{ errorMessage }}</div>
+
+  <!-- Course Details Tab -->
+  <div *ngIf="!isLoading && course && activeTab==='course'">
+
+    <!-- Course Thumbnail -->
+    <div class="relative mb-6">
+      <img *ngIf="course.thumbnailUrl" 
+           [src]="'https://localhost:7000' + course.thumbnailUrl" 
+           alt="{{ course.title }}" 
+           class="w-full h-64 object-cover rounded-xl shadow-lg">
+      <span class="absolute top-3 left-3 bg-blue-600 text-white text-sm font-semibold px-3 py-1 rounded-full shadow">Course</span>
+    </div>
+
+    <h2 class="text-3xl font-bold mb-2">{{ course.title }}</h2>
+    <p class="text-gray-700 mb-6">{{ course.description }}</p>
+
+    <!-- Units -->
+    <div class="mb-8">
+      <h3 class="text-2xl font-semibold mb-4">Total Units ({{ course.totalUnits }})</h3>
+      <div *ngFor="let unit of course.units" class="bg-white rounded-xl shadow-md p-5 mb-3 hover:shadow-xl transition duration-200">
+        <p class="font-medium text-lg mb-1">{{ unit.title }}</p>
+        
+      </div>
+    </div>
+   
+
+    <!-- Quizzes -->
+    <div *ngIf="course.quizzes?.length" class="mb-8">
+      <h3 class="text-2xl font-semibold mb-4">Quizzes</h3>
+      <div *ngFor="let quiz of course.quizzes" class="bg-white rounded-xl shadow-md p-5 mb-3 hover:shadow-xl transition duration-200">
+        <p class="font-medium">{{ quiz.title }}</p>
+        <p class="text-gray-600">{{ quiz.duration }} min</p>
+      </div>
+    </div>
+  <div  class=" shadow-2xl rounded-2xl p-8 text-center">
+    <h2 class="text-3xl font-extrabold mb-4 text-pink-600">Certificate</h2>
+    <p class="text-gray-700 mb-6">Complete this course to unlock your certificate of completion.</p>
+    <button class="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-8 py-3 rounded-3xl font-bold hover:from-purple-500 hover:to-pink-500 transform hover:scale-100 transition-all shadow-lg">
+      View / Download Certificate
+    </button>
+  </div>
+
+    <!-- Enroll Button -->
+    <div class="mt-6 text-center">
+      <button (click)="enrollCourse()"
+              class="bg-green-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-green-700 transition-all shadow-lg hover:shadow-xl">
+        Enroll Now
+      </button>
+<br>
+      <span class="text-xl text-red-500">{{errorMessage}}</span>
+    </div>
+
+   
+
+  </div>
+
+  <!-- Instructor Tab -->
+  <div *ngIf="!isLoading && course && activeTab==='instructor'" class="bg-white shadow-lg rounded-xl p-6 flex items-center gap-6">
+    
+    <!-- Instructor Profile Pic -->
+    <img *ngIf="course.instructor.profilePic" 
+         [src]="'https://localhost:7000' + course.instructor.profilePic" 
+         alt="{{ course.instructor.fullName }}" 
+         class="w-24 h-24 object-cover rounded-full shadow-md">
+
+    <div>
+      <h2 class="text-3xl font-bold mb-2">{{ course.instructor.fullName }}</h2>
+      <p class="text-gray-700 mb-1 font-medium">Email: {{ course.instructor.email }}</p>
+      <p *ngIf="course.instructor.bio" class="text-gray-600">{{ course.instructor.bio }}</p>
+    </div>
+
+ 
+
+  </div>
+
+</div>

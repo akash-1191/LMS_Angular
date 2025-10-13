@@ -1,1 +1,39 @@
-<p>inst-course works!</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+  <div *ngFor="let course of courses" class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+
+    <!-- Thumbnail -->
+    <div class="h-48 w-full overflow-hidden">
+      <img
+        [src]="'https://localhost:7000' + course.thumbnailUrl"
+        alt="Course Thumbnail"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="flex flex-col flex-grow p-4 justify-between">
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 truncate mb-1">{{ course.title }}</h2>
+        <p class="text-sm text-gray-600 mb-3 line-clamp-2">
+          {{ course.description }}
+        </p>
+        <span
+          class="text-xs font-medium px-2 py-1 rounded-full"
+          [ngClass]="{
+            'bg-yellow-100 text-yellow-800': course.approvalStatus === 'Pending',
+            'bg-green-100 text-green-800': course.approvalStatus === 'Approved',
+            'bg-red-100 text-red-800': course.approvalStatus === 'Rejected'
+          }"
+        >
+          {{ course.approvalStatus }}
+        </span>
+      </div>
+      <div class="mt-4">
+        <button
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 px-4 rounded transition"
+          [routerLink]="['/instructor-dashboard/course-detail', course.courseId]"
+        >
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

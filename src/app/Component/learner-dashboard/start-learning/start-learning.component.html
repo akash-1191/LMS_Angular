@@ -1,0 +1,98 @@
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 max-w-7xl mx-auto">
+
+  <!-- Loading/Error -->
+  <div *ngIf="isLoading" class="text-center text-gray-500">Loading course...</div>
+  <div *ngIf="errorMessage" class="text-center text-red-500">{{ errorMessage }}</div>
+
+  <div *ngIf="!isLoading && course" class="flex flex-col gap-6">
+
+    <!-- Top Bar -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 rounded-lg shadow">
+      <div class="flex items-center gap-4">
+        <img *ngIf="course.thumbnailUrl" [src]="'https://localhost:7000' + course.thumbnailUrl"
+             alt="{{ course.title }}" class="w-24 h-24 object-cover rounded-lg">
+        <div>
+          <h1 class="text-2xl font-bold">{{ course.title }}</h1>
+          <p class="text-gray-700">{{ course.description }}</p>
+          <p class="text-sm text-gray-600 mt-2">
+            Course Progress: {{ unitProgress.length ? (getOverallProgress() | number:'1.0-0') : 0 }}%
+          </p>
+        </div>
+      </div>
+      <p *ngIf="unitCompleteMessage" class="text-green-600 font-medium mt-2 sm:mt-0">
+        {{ unitCompleteMessage }}
+      </p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex flex-col lg:flex-row gap-6">
+
+      <!-- Sidebar: Units & Quizzes -->
+      <div class="w-full lg:w-1/3 bg-white rounded-lg shadow p-4 h-auto lg:h-[70vh] overflow-y-auto">
+
+        <!-- Units -->
+        <h2 class="text-xl font-semibold mb-3">Units</h2>
+        <div *ngFor="let unit of course.units ?? []"
+             (click)="!isUnitLocked(unit) && selectUnit(unit)"
+             [class.bg-blue-100]="selectedUnit === unit"
+             [class.opacity-50]="isUnitLocked(unit)"
+             class="p-3 mb-2 rounded-lg cursor-pointer hover:bg-blue-50 transition">
+          <p class="font-medium">{{ unit.title }}</p>
+          <div class="text-sm text-gray-500">
+            {{ unit.contents.length }} video(s)
+          </div>
+
+          <!-- Completion & progress -->
+          <div *ngIf="getUnitProgressPercent(unit.unitId) > 0">
+            <div class="w-full bg-gray-200 h-2 rounded mt-1">
+              <div class="bg-green-500 h-2 rounded" [style.width.%]="getUnitProgressPercent(unit.unitId)"></div>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">
+              {{ getUnitProgressPercent(unit.unitId) }}% completed
+            </p>
+          </div>
+        </div>
+
+        <!-- Quizzes -->
+        <h2 class="text-xl font-semibold mt-6 mb-3">Quizzes</h2>
+        <div *ngFor="let quiz of course.quizzes ?? []"
+             class="p-3 mb-2 rounded-lg bg-purple-50 shadow transition">
+          <div class="flex items-center justify-between flex-col sm:flex-row gap-2 sm:gap-0">
+            <div>
+              <p class="font-medium">{{ quiz.title }} - {{ quiz.duration }} min</p>
+              <p class="text-sm text-gray-500">Complete all units to unlock this quiz.</p>
+            </div>
+            <button 
+                (click)="quizClick(quiz.quizId)"
+                [disabled]="!allUnitsCompleted()"
+                [ngClass]="{
+                  'bg-gray-400 cursor-not-allowed': !allUnitsCompleted(),
+                  'bg-purple-600 hover:bg-purple-700 cursor-pointer': allUnitsCompleted()
+                }"
+                class="text-white px-4 py-2 rounded-lg font-medium transition">
+              Start Quiz
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Video Player -->
+      <div class="w-full lg:flex-1 bg-white rounded-lg shadow p-4 h-auto lg:h-[70vh] flex flex-col">
+        <ng-container *ngIf="selectedContent?.filePath">
+          <video [src]="'https://localhost:7000' + selectedContent.filePath" controls
+                 class="w-full h-full rounded-lg mb-2 bg-black"
+                 (timeupdate)="onTimeUpdate($event)"
+                 >
+          </video>
+          <!-- Video Progress Bar -->
+          <div class="w-full bg-gray-200 h-2 rounded mt-2">
+            <div class="bg-blue-500 h-2 rounded" [style.width.%]="videoProgress"></div>
+          </div>
+          <p class="text-sm text-gray-500 mt-1">{{ videoProgress | number:'1.0-0' }}% watched</p>
+        </ng-container>
+        <div *ngIf="!selectedContent" class="text-gray-500 text-center mt-10">
+          Select a unit to start learning.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-<section >
+<section>
   <div class="min-h-screen flex flex-col antialiased bg-slate-100 ">
 
     <!-- Header -->
@@ -11,7 +11,9 @@
         <span class="hidden md:block font-semibold text-lg tracking-wide">Admin Dashboard</span>
       </div>
       <ul class="flex items-center space-x-4">
-        <li><div class="w-px h-6 bg-slate-400"></div></li>
+        <li>
+          <div class="w-px h-6 bg-slate-400"></div>
+        </li>
         <li>
           <p (click)="logout()" class="cursor-pointer flex items-center hover:text-blue-300 transition duration-200">
             <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
@@ -21,48 +23,47 @@
     </div>
 
     <!-- Sidebar -->
-    <div id="sidebar"
-  [class.-translate-x-full]="!isSidebarOpen"
+    <div id="sidebar" [class.-translate-x-full]="!isSidebarOpen"
       class="fixed flex flex-col top-14 left-0 w-64 md:w-64 h-full bg-slate-900 text-white z-30 shadow-lg transform md:translate-x-0 transition-transform duration-300 ease-in-out">
 
       <div class="flex flex-col justify-between flex-grow">
         <ul class="flex flex-col py-4 space-y-1">
 
-          
+
           <a routerLink="/admin-dashboard/" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-plus w-5 text-sm"></i>
+      border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-gauge-high w-5 text-sm"></i>
               <button class="ml-3 text-sm tracking-wide truncate">Dashboard</button>
             </span>
           </a>
 
 
-           <a routerLink="/admin-dashboard/InstructorReq" class="cursor-pointer">
+          <a routerLink="/admin-dashboard/InstructorReq" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-plus w-5 text-sm"></i>
+      border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-user-check w-5 text-sm"></i>
               <button class="ml-3 text-sm tracking-wide truncate">Instructor Approval</button>
             </span>
           </a>
-          
+
           <a routerLink="/admin-dashboard/manageuser" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-car w-5 text-sm"></i>
+      border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-users-gear w-5 text-sm"></i>
               <button class="ml-3 text-sm tracking-wide truncate">Manage Users</button>
             </span>
           </a>
 
           <a routerLink="/admin-dashboard/managecourse" class="cursor-pointer">
             <span class="relative flex flex-row items-center h-11 hover:bg-gray-600 hover:text-indigo-300  
-              border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
-              <i class="fa-solid fa-envelope w-5 text-sm"></i>
+      border-l-4 border-transparent hover:border-indigo-500 pr-6 px-4">
+              <i class="fa-solid fa-book-open w-5 text-sm"></i>
               <button class="ml-3 text-sm tracking-wide truncate">Manage Courses</button>
             </span>
           </a>
 
-          </ul>
+        </ul>
 
         <p class="mb-14 px-5 py-3 hidden md:block text-center text-xs text-slate-400">
           Copyright LMS 2025
